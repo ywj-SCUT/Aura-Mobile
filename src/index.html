@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aura 音乐</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        
+        <div id="page-search" class="page-view active">
+            <div class="header-bar">发现音乐</div>
+            <div class="chat-history" id="chat-history">
+                <div class="message system"><div class="bubble">输入你想听的歌曲名，点击发送检索全网音乐。</div></div>
+            </div>
+            <div class="search-results" id="search-results" style="display: none;">
+                <h4>检索结果：</h4>
+                <ul id="results-list"></ul>
+            </div>
+            <div class="input-area">
+                <input type="text" id="chat-input" placeholder="输入歌名、歌手..." autocomplete="off">
+                <button id="send-btn">发送</button>
+            </div>
+        </div>
+
+        <div id="page-player" class="page-view">
+            <div class="player-header">
+                <h2 id="song-title">Aura 音乐</h2>
+                <p id="song-artist">让声音更有温度</p> 
+                <button id="like-btn" class="like-btn" style="display: none;" title="添加到收藏夹">🤍</button>
+            </div>
+            
+            <div class="record-container">
+                <div class="record" id="record-disc">
+                    <img id="record-cover" class="record-cover" src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=300&q=80" alt="封面">
+                    <div class="record-center"></div>
+                </div>
+            </div>
+
+            <div class="mini-lyrics-header">
+                <div class="lyric-offset-controls">
+                    <button id="offset-minus" class="offset-btn">-0.5s</button>
+                    <span id="offset-display">补偿: 0.0s</span>
+                    <button id="offset-plus" class="offset-btn">+0.5s</button>
+                </div>
+            </div>
+            <div class="lyrics-container" id="lyrics-container">
+                <p class="lyric-line">暂无播放</p>
+            </div>
+
+            <div class="player-controls">
+                <div class="progress-area">
+                    <span id="current-time">00:00</span>
+                    <div class="progress-bar" id="progress-bar">
+                        <div class="progress-current" id="progress-current"></div>
+                    </div>
+                    <span id="duration">00:00</span>
+                </div>
+                
+                <div class="buttons">
+                    <button class="btn" id="prev-btn">⏮</button>
+                    <button class="btn play-btn" id="play-btn">▶</button>
+                    <button class="btn" id="next-btn">⏭</button>
+                </div>
+            </div>
+            <audio id="audio-player"></audio>
+        </div>
+
+        <div id="page-fav" class="page-view">
+            <div class="header-bar">我的收藏</div>
+            <ul id="fav-list"></ul>
+        </div>
+
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-target="page-search">
+                <span class="icon">🔍</span>
+                <span class="text">发现</span>
+            </button>
+            <button class="nav-item" data-target="page-player">
+                <span class="icon">🎵</span>
+                <span class="text">播放</span>
+            </button>
+            <button class="nav-item" data-target="page-fav">
+                <span class="icon">❤️</span>
+                <span class="text">我的</span>
+            </button>
+        </nav>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

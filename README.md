@@ -55,6 +55,21 @@ Aura Mobile 是一个面向 Android 的混合式音乐播放器。项目使用 V
 
 界面采用移动端优先的单页布局，并兼顾较宽屏幕。整体风格接近现代移动音乐应用，以圆角面板、半透明播放器层、封面模糊背景和主题强调色构成。
 
+> 以下截图由项目当前前端源码实际渲染生成，界面内容使用固定演示数据，以避免后端服务状态影响展示。
+
+<table>
+  <tr>
+    <td align="center"><strong>推荐</strong></td>
+    <td align="center"><strong>AI 助手</strong></td>
+    <td align="center"><strong>我的收藏</strong></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/discover.png" alt="Aura Mobile 推荐页" width="260"></td>
+    <td><img src="docs/screenshots/ai-assistant.png" alt="Aura Mobile AI 助手页" width="260"></td>
+    <td><img src="docs/screenshots/library.png" alt="Aura Mobile 我的收藏页" width="260"></td>
+  </tr>
+</table>
+
 ### 发现页
 
 顶部有三个标签：
@@ -71,6 +86,8 @@ Aura Mobile 是一个面向 Android 的混合式音乐播放器。项目使用 V
 - 每首收藏可以直接播放或删除。
 
 ### 播放器
+
+![Aura Mobile 宽屏歌词播放器](docs/screenshots/player.png)
 
 - 非全屏状态下，底部迷你播放器显示封面、歌名、歌手及上一首、播放/暂停、下一首按钮。
 - 展开后显示大尺寸唱片封面、动态模糊背景、歌曲信息、播放进度和完整控制栏。

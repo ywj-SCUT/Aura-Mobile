@@ -1,93 +1,295 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#f2f2f6">
     <title>Aura 音乐</title>
+    <link rel="icon" type="image/svg+xml" href="./default-cover.svg">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="app-container">
-        
-        <div id="page-search" class="page-view active">
-            <div class="header-bar">发现音乐</div>
-            <div class="chat-history" id="chat-history">
-                <div class="message system"><div class="bubble">输入你想听的歌曲名，点击发送检索全网音乐。</div></div>
+        <main id="page-search" class="page-view active" aria-label="发现音乐">
+            <div class="top-tab-bar" role="tablist" aria-label="发现页面分类">
+                <button type="button" class="top-tab-item active" role="tab" aria-selected="true" aria-controls="tab-recommend" data-tab="tab-recommend">推荐</button>
+                <button type="button" class="top-tab-item" role="tab" aria-selected="false" aria-controls="tab-ai" data-tab="tab-ai">AI 助手</button>
+                <button type="button" class="top-tab-item" role="tab" aria-selected="false" aria-controls="tab-search" data-tab="tab-search">搜索</button>
             </div>
-            <div class="search-results" id="search-results" style="display: none;">
-                <h4>检索结果：</h4>
-                <ul id="results-list"></ul>
-            </div>
-            <div class="input-area">
-                <input type="text" id="chat-input" placeholder="输入歌名、歌手..." autocomplete="off">
-                <button id="send-btn">发送</button>
-            </div>
-        </div>
 
-        <div id="page-player" class="page-view">
-            <div class="player-header">
-                <h2 id="song-title">Aura 音乐</h2>
-                <p id="song-artist">让声音更有温度</p> 
-                <button id="like-btn" class="like-btn" style="display: none;" title="添加到收藏夹">🤍</button>
-            </div>
-            
-            <div class="record-container">
-                <div class="record" id="record-disc">
-                    <img id="record-cover" class="record-cover" src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=300&q=80" alt="封面">
-                    <div class="record-center"></div>
+            <section id="tab-recommend" class="sub-tab-view active" role="tabpanel" aria-label="推荐">
+                <div class="recommend-cards-container" aria-label="推荐分类">
+                    <button type="button" class="rec-card card-1 active" aria-pressed="true">
+                        <span class="rec-card-title">猜你喜欢</span>
+                        <span class="rec-card-sub">为你量身定制</span>
+                    </button>
+                    <button type="button" class="rec-card card-2" aria-pressed="false">
+                        <span class="rec-card-title">每日推荐</span>
+                        <span class="rec-card-sub">发现新声音</span>
+                    </button>
+                    <button type="button" class="rec-card card-3" aria-pressed="false">
+                        <span class="rec-card-title">排行榜</span>
+                        <span class="rec-card-sub">全网最热趋势</span>
+                    </button>
                 </div>
-            </div>
 
-            <div class="mini-lyrics-header">
-                <div class="lyric-offset-controls">
-                    <button id="offset-minus" class="offset-btn">-0.5s</button>
-                    <span id="offset-display">补偿: 0.0s</span>
-                    <button id="offset-plus" class="offset-btn">+0.5s</button>
-                </div>
-            </div>
-            <div class="lyrics-container" id="lyrics-container">
-                <p class="lyric-line">暂无播放</p>
-            </div>
-
-            <div class="player-controls">
-                <div class="progress-area">
-                    <span id="current-time">00:00</span>
-                    <div class="progress-bar" id="progress-bar">
-                        <div class="progress-current" id="progress-current"></div>
+                <div class="recommend-list-section">
+                    <div class="section-title section-title-row">
+                        <span id="rec-section-title">专属推荐</span>
+                        <button id="refresh-rec-btn" type="button" class="refresh-btn" aria-label="刷新推荐">
+                            <svg viewBox="0 0 24 24" class="small-svg-icon" aria-hidden="true"><path d="M17.65 6.35A7.95 7.95 0 0 0 12 4a8 8 0 1 0 7.9 9.2h-2.05A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h8V3z" fill="currentColor"/></svg>
+                            <span>刷新</span>
+                        </button>
                     </div>
-                    <span id="duration">00:00</span>
+                    <ul id="recommend-list" aria-live="polite">
+                        <li class="empty-state">正在唤醒 AI 引擎，为你分析听歌偏好</li>
+                    </ul>
                 </div>
-                
-                <div class="buttons">
-                    <button class="btn" id="prev-btn">⏮</button>
-                    <button class="btn play-btn" id="play-btn">▶</button>
-                    <button class="btn" id="next-btn">⏭</button>
+            </section>
+
+            <section id="tab-ai" class="sub-tab-view" role="tabpanel" aria-label="AI 助手" hidden>
+                <div class="chat-history" id="ai-chat-history" aria-live="polite">
+                    <div class="message system"><div class="bubble">你好！我是 Aura 专属 AI 助手。告诉我你想听什么样的音乐。</div></div>
                 </div>
+                <div class="input-area chat-input-area">
+                    <label class="visually-hidden" for="ai-chat-input">输入想听的音乐</label>
+                    <input type="text" id="ai-chat-input" placeholder="和 AI 聊聊想听什么..." autocomplete="off">
+                    <button type="button" id="ai-send-btn">发送</button>
+                </div>
+            </section>
+
+            <section id="tab-search" class="sub-tab-view" role="tabpanel" aria-label="搜索" hidden>
+                <div class="input-area">
+                    <label class="visually-hidden" for="search-input">输入歌名或歌手</label>
+                    <input type="search" id="search-input" placeholder="输入歌名、歌手..." autocomplete="off">
+                    <button type="button" id="search-btn">搜索</button>
+                </div>
+                <div class="search-results" id="search-results">
+                    <ul id="results-list" aria-live="polite">
+                        <li class="empty-state">实时从全网曲库拉取无损音源</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <main id="page-fav" class="page-view" aria-label="我的收藏">
+            <header class="header-bar">
+                <span>我的收藏</span>
+                <button id="account-menu-btn" type="button" class="icon-action-btn account-menu-btn" title="我的账号" aria-label="打开账号设置">
+                    <svg viewBox="0 0 24 24" class="svg-icon" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/></svg>
+                </button>
+            </header>
+            <div class="fav-search-container">
+                <label class="visually-hidden" for="fav-search-input">在收藏中搜索</label>
+                <input type="search" id="fav-search-input" placeholder="在收藏中搜索..." autocomplete="off">
             </div>
-            <audio id="audio-player"></audio>
-        </div>
+            <ul id="fav-list" aria-live="polite"></ul>
+        </main>
 
-        <div id="page-fav" class="page-view">
-            <div class="header-bar">我的收藏</div>
-            <ul id="fav-list"></ul>
-        </div>
+        <section id="mini-player" class="mini-player hidden" aria-label="迷你播放器">
+            <button type="button" class="mini-player-main" aria-label="展开当前播放器">
+                <img id="mini-cover" class="mini-cover" src="./default-cover.svg" alt="当前歌曲封面">
+                <span class="mini-meta">
+                    <span id="mini-title" class="mini-title">未在播放</span>
+                    <span id="mini-artist" class="mini-artist">Aura Music</span>
+                </span>
+            </button>
+            <div class="mini-actions">
+                <button type="button" id="mini-prev-btn" class="mini-btn" aria-label="上一首" title="上一首">
+                    <svg viewBox="0 0 24 24" class="mini-svg-icon" aria-hidden="true"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" fill="currentColor"/></svg>
+                </button>
+                <button type="button" id="mini-play-btn" class="mini-btn" aria-label="播放" title="播放">
+                    <svg viewBox="0 0 24 24" class="mini-svg-icon" id="mini-play-icon-svg" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+                </button>
+                <button type="button" id="mini-next-btn" class="mini-btn" aria-label="下一首" title="下一首">
+                    <svg viewBox="0 0 24 24" class="mini-svg-icon" aria-hidden="true"><path d="m6 18 8.5-6L6 6v12zM16 6v12h2V6h-2z" fill="currentColor"/></svg>
+                </button>
+            </div>
+        </section>
 
-        <nav class="bottom-nav">
-            <button class="nav-item active" data-target="page-search">
-                <span class="icon">🔍</span>
-                <span class="text">发现</span>
-            </button>
-            <button class="nav-item" data-target="page-player">
-                <span class="icon">🎵</span>
-                <span class="text">播放</span>
-            </button>
-            <button class="nav-item" data-target="page-fav">
-                <span class="icon">❤️</span>
-                <span class="text">我的</span>
-            </button>
+        <nav class="bottom-nav" aria-label="主导航">
+            <button type="button" class="nav-item active" data-target="page-search" aria-current="page"><span class="text">发现</span></button>
+            <button type="button" class="nav-item" data-target="page-fav"><span class="text">我的</span></button>
         </nav>
 
+        <section id="page-player" class="fullscreen-player" aria-label="全屏播放器" aria-hidden="true">
+            <div class="player-blur-bg" id="player-blur-bg"></div>
+            <div class="player-glass-overlay"></div>
+
+            <div class="player-content-container">
+                <div class="top-actions">
+                    <button type="button" id="collapse-player-btn" class="icon-action-btn" title="收起播放器" aria-label="收起播放器">
+                        <svg viewBox="0 0 24 24" class="svg-icon" aria-hidden="true"><path d="m7.41 8.59 4.59 4.58 4.59-4.58L18 10l-6 6-6-6z" fill="currentColor"/></svg>
+                    </button>
+                    <button type="button" id="like-btn" class="icon-action-btn" title="添加到收藏夹" aria-label="添加到收藏夹" aria-pressed="false">
+                        <svg viewBox="0 0 24 24" class="svg-icon" id="like-icon" aria-hidden="true"><path d="m12.1 21.35-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A6.02 6.02 0 0 1 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.65 11.54l-1.25 1.31z" fill="currentColor"/></svg>
+                    </button>
+                    <button type="button" id="queue-btn" class="icon-action-btn" title="查看队列" aria-label="查看播放队列">
+                        <svg viewBox="0 0 24 24" class="svg-icon" aria-hidden="true"><path d="M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18A3 3 0 1 0 19 17V8h3V6h-5z" fill="currentColor"/></svg>
+                    </button>
+                    <button type="button" id="settings-btn" class="icon-action-btn" title="设置" aria-label="打开通用设置">
+                        <svg viewBox="0 0 24 24" class="svg-icon" aria-hidden="true"><path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.11-1.65a.5.5 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.61-.22l-2.49 1a7.3 7.3 0 0 0-1.69-.98L14.5 2.42A.49.49 0 0 0 14 2h-4a.49.49 0 0 0-.49.42L9.13 5.07c-.61.25-1.17.59-1.69.98l-2.49-1a.49.49 0 0 0-.61.22l-2 3.46a.49.49 0 0 0 .12.64l2.11 1.65c-.04.32-.08.66-.08.98s.03.66.08.98l-2.11 1.65a.5.5 0 0 0-.12.64l2 3.46c.12.22.38.31.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.04.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.58 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46a.5.5 0 0 0-.12-.64l-2.11-1.65zM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5z" fill="currentColor"/></svg>
+                    </button>
+                </div>
+
+                <div class="player-layout-grid">
+                    <div class="player-left-pane">
+                        <div class="apple-cover-section" id="record-disc">
+                            <img id="album-cover" src="./default-cover.svg" alt="当前歌曲封面">
+                            <img id="record-cover" class="hidden-record-cover" src="./default-cover.svg" alt="">
+                        </div>
+
+                        <div class="apple-titles-section">
+                            <h2 id="song-title">Aura 音乐</h2>
+                            <p id="song-artist">让声音更有温度</p>
+                        </div>
+
+                        <div class="player-controls">
+                            <div class="controls-toggle-wrap">
+                                <button type="button" id="toggle-controls-btn" title="隐藏或显示控制栏" aria-label="隐藏或显示控制栏" aria-expanded="true">
+                                    <svg viewBox="0 0 24 24" class="svg-icon" aria-hidden="true"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z" fill="currentColor"/></svg>
+                                </button>
+                            </div>
+
+                            <div class="player-controls-main" id="player-controls-main">
+                                <div class="progress-area">
+                                    <span id="current-time">00:00</span>
+                                    <div class="progress-bar" id="progress-bar" role="slider" tabindex="0" aria-label="播放进度" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-valuetext="00:00 / 00:00">
+                                        <div class="progress-current" id="progress-current"></div>
+                                        <span class="progress-thumb" aria-hidden="true"></span>
+                                    </div>
+                                    <span id="duration">00:00</span>
+                                </div>
+
+                                <div class="buttons">
+                                    <button type="button" class="btn side-btn" id="mode-btn" title="列表循环" aria-label="播放模式：列表循环">
+                                        <svg viewBox="0 0 24 24" class="svg-icon" id="mode-icon" aria-hidden="true"><path d="M7 7h10.59l-1.3 1.29 1.42 1.42L21.41 6l-3.7-3.71-1.42 1.42L17.59 5H7a5 5 0 0 0-5 5v1h2v-1a3 3 0 0 1 3-3zm10 10H6.41l1.3-1.29-1.42-1.42L2.59 18l3.7 3.71 1.42-1.42L6.41 19H17a5 5 0 0 0 5-5v-1h-2v1a3 3 0 0 1-3 3z" fill="currentColor"/></svg>
+                                    </button>
+
+                                    <button type="button" class="btn" id="prev-btn" aria-label="上一首" title="上一首">
+                                        <svg viewBox="0 0 24 24" class="svg-icon" aria-hidden="true"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" fill="currentColor"/></svg>
+                                    </button>
+                                    <button type="button" class="btn play-btn" id="play-btn" aria-label="播放" title="播放">
+                                        <svg viewBox="0 0 24 24" class="svg-icon play-svg" id="play-icon-svg" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+                                    </button>
+                                    <button type="button" class="btn" id="next-btn" aria-label="下一首" title="下一首">
+                                        <svg viewBox="0 0 24 24" class="svg-icon" aria-hidden="true"><path d="m6 18 8.5-6L6 6v12zM16 6v12h2V6h-2z" fill="currentColor"/></svg>
+                                    </button>
+
+                                    <button type="button" class="btn side-btn" id="toggle-lyric-btn" title="全屏歌词" aria-label="切换全屏歌词" aria-pressed="false">
+                                        <svg viewBox="0 0 24 24" class="svg-icon" aria-hidden="true"><path d="M20 2H4a2 2 0 0 0-1.99 2L2 22l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z" fill="currentColor"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="player-right-pane">
+                        <div class="mini-lyrics-header">
+                            <div class="lyric-offset-controls apple-glass-pill">
+                                <button type="button" id="offset-minus" class="offset-btn" aria-label="歌词提前半秒">-0.5s</button>
+                                <span id="offset-display">+0.0s</span>
+                                <button type="button" id="offset-plus" class="offset-btn" aria-label="歌词延后半秒">+0.5s</button>
+                            </div>
+                        </div>
+                        <div class="lyrics-container" id="lyrics-container" aria-live="off">
+                            <p class="lyric-line">暂无播放</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="queue-drawer-backdrop" id="queue-backdrop"></div>
+        <aside class="queue-drawer" id="queue-drawer" role="dialog" aria-modal="true" aria-labelledby="queue-title" aria-hidden="true" tabindex="-1">
+            <div class="drawer-header">
+                <h3 id="queue-title">播放列表（<span id="queue-count">0</span>）</h3>
+                <button type="button" id="close-drawer-btn">关闭</button>
+            </div>
+            <div class="drawer-content"><ul id="drawer-list"></ul></div>
+        </aside>
+
+        <div class="settings-backdrop" id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title" aria-hidden="true" tabindex="-1">
+            <div class="settings-content">
+                <button type="button" id="close-settings-btn" class="modal-close-btn" title="关闭" aria-label="关闭设置">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/></svg>
+                </button>
+                <h3 id="settings-title">通用设置</h3>
+                <div class="settings-section">
+                    <h4>音效调整</h4>
+                    <div class="effect-options" role="group" aria-label="音效模式">
+                        <button type="button" class="effect-btn" data-effect="normal" aria-pressed="false">标准</button>
+                        <button type="button" class="effect-btn" data-effect="3d" aria-pressed="false">3D 环绕</button>
+                        <button type="button" class="effect-btn" data-effect="hifi" aria-pressed="false">全景 HiFi</button>
+                        <button type="button" class="effect-btn" data-effect="vocal" aria-pressed="false">纯净人声</button>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h4>歌词字体大小</h4>
+                    <div class="font-controls">
+                        <button type="button" id="font-minus-btn" class="settings-action-btn" aria-label="减小歌词字体">A−</button>
+                        <span id="font-size-display" class="font-size-display">24px</span>
+                        <button type="button" id="font-plus-btn" class="settings-action-btn" aria-label="增大歌词字体">A＋</button>
+                    </div>
+                </div>
+                <div class="settings-section settings-section-last">
+                    <h4>主题强调色</h4>
+                    <div class="theme-options" role="group" aria-label="主题强调色">
+                        <button type="button" class="theme-circle" data-theme="red" aria-label="红色主题" aria-pressed="false" style="--theme-swatch:#fa233b"></button>
+                        <button type="button" class="theme-circle" data-theme="blue" aria-label="蓝色主题" aria-pressed="false" style="--theme-swatch:#007aff"></button>
+                        <button type="button" class="theme-circle" data-theme="green" aria-label="绿色主题" aria-pressed="false" style="--theme-swatch:#34c759"></button>
+                        <button type="button" class="theme-circle" data-theme="purple" aria-label="紫色主题" aria-pressed="false" style="--theme-swatch:#af52de"></button>
+                        <button type="button" class="theme-circle theme-circle-light" data-theme="white" aria-label="浅色主题" aria-pressed="false" style="--theme-swatch:#ffffff"></button>
+                        <button type="button" class="theme-circle" data-theme="black" aria-label="深色主题" aria-pressed="false" style="--theme-swatch:#111111"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-backdrop" id="account-modal" role="dialog" aria-modal="true" aria-labelledby="account-modal-title" aria-hidden="true" tabindex="-1">
+            <div class="settings-content account-settings-content">
+                <button type="button" id="close-account-btn" class="modal-close-btn" title="关闭" aria-label="关闭账号窗口">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/></svg>
+                </button>
+                <h3 id="account-modal-title">新账号注册</h3>
+
+                <div class="account-info">
+                    <span>当前状态</span>
+                    <strong id="current-user-id">游客（Guest）</strong>
+                    <div id="favorites-sync-status" class="favorites-sync-status" data-status="local" role="status" aria-live="polite">游客收藏仅保存在本机</div>
+                </div>
+
+                <div class="modal-divider"></div>
+
+                <div class="account-actions">
+                    <label class="visually-hidden" for="input-user-id">账号名</label>
+                    <input type="text" id="input-user-id" placeholder="输入账号名" autocomplete="username">
+                    <label class="visually-hidden" for="input-password">密码</label>
+                    <input type="password" id="input-password" placeholder="输入密码" autocomplete="new-password">
+                    <button type="button" id="auth-action-btn" class="primary-button">立即注册</button>
+                    <button type="button" id="logout-btn" class="secondary-button account-logout-btn">退出登录</button>
+                </div>
+
+                <div class="auth-mode-row">
+                    <button type="button" id="toggle-auth-mode-btn" class="text-button">已有账号，直接登录</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-backdrop" id="custom-dialog" role="alertdialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-message" aria-hidden="true" tabindex="-1">
+            <div class="settings-content custom-dialog-content">
+                <button type="button" id="dialog-close-btn" class="modal-close-btn dialog-close-btn" title="关闭" aria-label="关闭提示">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/></svg>
+                </button>
+                <h3 id="dialog-title">提示</h3>
+                <p id="dialog-message"></p>
+                <div id="dialog-actions" class="dialog-actions"></div>
+            </div>
+        </div>
+
+        <div id="app-toast" class="app-toast" role="status" aria-live="polite"></div>
+        <audio id="web-audio" preload="metadata" hidden></audio>
     </div>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

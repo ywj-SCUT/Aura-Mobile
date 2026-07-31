@@ -1,5 +1,9 @@
 {
   "appId": "com.YWJ.Aura",
   "appName": "Aura",
-  "webDir": "src"
+  "webDir": "src/dist",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  }
 }

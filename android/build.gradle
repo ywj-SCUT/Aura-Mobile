@@ -1,13 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.13.0'
+        // 🌟 修复 1: 平滑升级到 8.13.2 (不建议直接升 9.x，以免 Capacitor 插件崩溃)
+        classpath 'com.android.tools.build:gradle:8.13.2'
         classpath 'com.google.gms:google-services:4.4.4'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -21,9 +21,15 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
+
+        // ⚠️ 注：由于 Danikula 缓存库强依赖此仓库，即使 IDE 提示废弃，我们也必须保留它。
+        // 这个 JCenter 的警告可以安全地无视。
+        jcenter()
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+// 🌟 修复 2 & 3: 现代化 Gradle 任务注册语法，修复 'task' 和 'buildDir' 的废弃警告
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory
 }

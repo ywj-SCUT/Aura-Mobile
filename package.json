@@ -1,18 +1,23 @@
 {
   "name": "music_app",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Aura Music Player Mobile Client",
+  "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite src",
+    "build": "vite build src",
+    "preview": "vite preview src"
   },
   "keywords": [],
-  "author": "",
+  "author": "Aura",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
     "@capacitor/android": "^8.3.4",
     "@capacitor/cli": "^8.3.4",
     "@capacitor/core": "^8.3.4"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
   }
 }

@@ -1,1 +1,21 @@
 node_modules/
+
+# Frontend build output
+dist/
+src/dist/
+
+# Android/Gradle generated files
+.gradle/
+**/build/
+android/.idea/
+android/local.properties
+*.iml
+
+# Local signing credentials
+*.keystore
+*.jks
+
+# Local maintenance output and archives
+cache-*.json
+cache-*.log
+*.zip

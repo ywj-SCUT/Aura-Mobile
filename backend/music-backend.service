@@ -1,0 +1,26 @@
+[Unit]
+Description=Aura Music Backend
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=admin
+Group=admin
+WorkingDirectory=/home/admin/MUSIC
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=PATH=/home/admin/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+EnvironmentFile=-/home/admin/MUSIC/.env
+ExecStart=/usr/bin/node /home/admin/MUSIC/server.js
+Restart=on-failure
+RestartSec=5s
+TimeoutStopSec=20s
+KillSignal=SIGTERM
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target

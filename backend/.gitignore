@@ -1,0 +1,10 @@
+node_modules/
+cache/
+.env
+.env.*
+!.env.example
+youtube_cookies.txt
+aura_sync_data.json
+user_memory.json
+*.tmp
+*.log

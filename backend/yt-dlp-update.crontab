@@ -1,0 +1,5 @@
+SHELL=/bin/bash
+PATH=/home/admin/.local/bin:/usr/local/bin:/usr/bin:/bin
+
+# Keep the yt-dlp executable and Python module used by the backend current.
+17 4 * * 1 /usr/bin/python3.11 -m pip install --user --upgrade yt-dlp >> /home/admin/.cache/yt-dlp-update.log 2>&1

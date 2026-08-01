@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">47.77.230.218</domain>
+        <!-- 发布前请将 YOUR_SERVER_IP 替换为自己的后端 IP 地址或域名。 -->
+        <domain includeSubdomains="true">YOUR_SERVER_IP</domain>
         <domain includeSubdomains="true">localhost</domain>
     </domain-config>
     <base-config cleartextTrafficPermitted="true">

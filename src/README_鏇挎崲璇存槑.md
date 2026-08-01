@@ -33,8 +33,10 @@
 - ui.js
 - default-cover.svg
 
-API 地址仍保持：
+API 地址使用占位符：
 
-`http://47.77.230.218:3000/api`
+`http://YOUR_SERVER_IP:3000/api`
+
+使用前请将 `YOUR_SERVER_IP` 替换为自己的后端 IP 地址或域名。
 
 底部导航仍然只有文字，歌词翻译仍已删除。

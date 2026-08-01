@@ -266,8 +266,10 @@ npm test
 默认 API 地址定义在 `src/store.js`：
 
 ```js
-export const API_BASE = 'http://47.77.230.218:3000/api';
+export const API_BASE = 'http://YOUR_SERVER_IP:3000/api';
 ```
+
+请将 `YOUR_SERVER_IP` 替换为自己的后端 IP 地址或域名，并根据实际部署调整端口和协议。Android 客户端还需要同步修改 `android/app/src/main/res/xml/network_security_config.xml` 中的同名占位符；正式部署建议使用 HTTPS。
 
 主要接口如下：
 

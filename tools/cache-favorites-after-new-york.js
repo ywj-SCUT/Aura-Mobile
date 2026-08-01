@@ -4,7 +4,7 @@ const { writeFileSync } = require('fs');
 
 const ADB = process.env.ADB || 'C:\\Android\\Sdk\\platform-tools\\adb.exe';
 const CDP_LIST_URL = 'http://127.0.0.1:9222/json';
-const API_BASE = 'http://47.77.230.218:3000/api';
+const API_BASE = process.env.API_BASE || 'http://YOUR_SERVER_IP:3000/api';
 const PACKAGE = 'com.YWJ.Aura';
 const ACTIVITY = `${PACKAGE}/.MainActivity`;
 const AUDIO_DIR = `/storage/emulated/0/Android/data/${PACKAGE}/files/audio-library`;

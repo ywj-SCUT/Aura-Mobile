@@ -1,5 +1,6 @@
 // store.js
-export const API_BASE = 'http://47.77.230.218:3000/api';
+// 发布前请将 YOUR_SERVER_IP 替换为自己的后端 IP 地址或域名。
+export const API_BASE = 'http://YOUR_SERVER_IP:3000/api';
 export const DEFAULT_COVER = './default-cover.svg';
 // ================= 图标路径（统一 24×24 SVG） =================
 export const ICON_PLAY = '<path d="M8 5v14l11-7z" fill="currentColor"/>';

@@ -2,7 +2,7 @@ const { writeFileSync } = require('fs');
 
 const OLD_ID = 'eKpegiG5XJc';
 const NEW_ID = 'WMREk23N5BM';
-const API_BASE = 'http://47.77.230.218:3000/api';
+const API_BASE = process.env.API_BASE || 'http://YOUR_SERVER_IP:3000/api';
 
 async function cdpEvaluate(expression) {
     const targets = await fetch('http://127.0.0.1:9222/json').then(response => response.json());
